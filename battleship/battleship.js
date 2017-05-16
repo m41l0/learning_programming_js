@@ -28,4 +28,4 @@ while (isSunk == false) { // пока корабль не потоплен
 }
 
 var stats = 'You took ' + guesses + ' guesses to sink the battleship, ' + 'wich means your shooting accuracy was ' + (3/guesses);
-alert(stats);
+alert(stats); // выводим статистику
