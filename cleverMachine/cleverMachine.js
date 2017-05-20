@@ -28,5 +28,5 @@ function display(output) {
 }
 
 var clunkCounter = 0;
-thingamajig(4);
+thingamajig(2);
 console.log(clunkCounter);
