@@ -1,7 +1,7 @@
 var balance = 10500;
 var cameraOn = true;
 
-function steal(balance, amount) { // глобадбная переменная balance замещается параметром balance
+function steal(balance, amount) { // глобальная переменная balance замещается параметром balance
 	cameraOn = false;
 	if (amount < balance) {
 		balance = balance - amount;
@@ -17,7 +17,7 @@ console.log('Criminal: you stole ' + amount + '!');
 
 
 // правильная функция для кражи
-function fixedSteal(oldBalance, amount) { // глобадбная переменная balance замещается параметром balance
+function fixedSteal(oldBalance, amount) { // глобальная переменная balance замещается параметром balance
 	cameraOn = false;
 	if (amount < oldBalance) {
 		balance = oldBalance - amount;
