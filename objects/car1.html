@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Test</title>
+	<title>Car 1</title>
 </head>
 <body>
 	<script>
@@ -29,10 +29,10 @@
 				}
 			}
 		};
-		fiat.drive();
-		fiat.start();
-		fiat.drive();
-		fiat.stop();
+
+		for (var property in fiat) {
+			console.log(property + ': ' + fiat[property]);
+		}
 	</script>
 </body>
 </html>
