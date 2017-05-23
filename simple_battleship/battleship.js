@@ -19,7 +19,7 @@ while (isSunk == false) { // пока корабль не потоплен
 
 			if (hits == 3) {
 				isSunk = true;
-				alert('You sunk my battleship!');
+				alert('You sunk my simple_battleship!');
 			}
 		} else {
 			alert('MISS!');
@@ -27,5 +27,5 @@ while (isSunk == false) { // пока корабль не потоплен
 	}
 }
 
-var stats = 'You took ' + guesses + ' guesses to sink the battleship, ' + 'wich means your shooting accuracy was ' + (3/guesses);
+var stats = 'You took ' + guesses + ' guesses to sink the simple_battleship, ' + 'wich means your shooting accuracy was ' + (3/guesses);
 alert(stats); // выводим статистику
