@@ -150,38 +150,42 @@ function parseGuess(guess) {
     return null;
 }
 
-// view.displayMiss("00");
-// view.displayHit("34");
-// view.displayMiss("55");
-// view.displayHit("12");
-// view.displayMiss("25");
-// view.displayHit("26");
-// view.displayMessage("Tap tap, is this thing on?");
+function handleFireButton() {
+    // получаем ссылку на элемент формы по идентификатору элемента 'guessInput'
+    var guessInput = document.getElementById('guessInput');
+    // извлекаем данные, введенные пользователем
+    var guess = guessInput.value;
+    // координаты выстрела передаются контроллеру
+    controller.processGuess(guess);
+    // удаляем содержимое элемента input формы, заменяя его пустой строкой
+    guessInput.value = '';
 
-// model.fire("53");
-// model.fire("06");
-// model.fire("16");
-// model.fire("26");
-// model.fire("34");
-// model.fire("24");
-// model.fire("44");
-// model.fire("12");
-// model.fire("11");
-// model.fire("10");
+}
 
-// console.log(parseGuess("A0"));
-// console.log(parseGuess("B6"));
-// console.log(parseGuess("G3"));
-// console.log(parseGuess("H0"));
-// console.log(parseGuess("A7"));
+/**
+ * обработчик нажатий клавиш вызывается, при каждом нажатии клавиши в поле input
+ * @param e
+ * @returns {boolean}
+ */
+function handleKeyPress(e) {
+    var fireButton = document.getElementById('fireButton');
+    // если нажата клавиша Enter, то свойство keyCode события равно 13
+    if (e.keyCode === 13) {
+        fireButton.click();
+        // возвращаем false, чтобы форма не делала ничего лишнего (например, не пыталась передать данные)
+        return false;
+    }
+}
 
-controller.processGuess("A0");
-controller.processGuess("A6");
-controller.processGuess("B6");
-controller.processGuess("C6");
-controller.processGuess("C4");
-controller.processGuess("D4");
-controller.processGuess("E4");
-controller.processGuess("B0");
-controller.processGuess("B1");
-controller.processGuess("B2");
+// браузер должен выполнять init, при полной загрузке страницы
+window.onload = init;
+
+function init() {
+    // получаем ссылку на кнопку Fire! по идентификатору кнопки
+    var fireButton = document.getElementById('fireButton');
+    // назначаем обработчик события нажатия — функцию handleFireButton
+    fireButton.onclick = handleFireButton;
+    // обработчик для обработки событий нажатия клавиш в поле ввода HTML
+    var guessInput = document.getElementById('guessInput');
+    guessInput.onkeypress = handleKeyPress;
+}
