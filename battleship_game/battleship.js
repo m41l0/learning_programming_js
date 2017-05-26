@@ -31,16 +31,18 @@ var view = {
 
 /**
  * объект модели
- * @type {{boardSize: number, numShips: number, shipsSunk: number, shipLength: number, ships: [*], fire: model.fire}}
+ * @type {{boardSize: number, numShips: number, shipsSunk: number, shipLength: number, ships: [*],
+ *         fire: model.fire, isSunk: model.isSunk, generateShipLocations: model.generateShipLocations,
+ *         generateShip: model.generateShip, collision: model.collision}}
  */
 var model = {
     boardSize: 7,
     numShips: 3,
     shipsSunk: 0,
     shipLength: 3,
-    ships: [{locations: ['06', '16', '26'], hits: ['', '', '']}, // 1-й корабль
-            {locations: ['24', '34', '44'], hits: ['', '', '']}, // 2-й корабль
-            {locations: ['10', '11', '12'], hits: ['', '', '']}], // 3-й корабль
+    ships: [{locations: ['0', '0', '0'], hits: ['', '', '']}, // 1-й корабль
+            {locations: ['0', '0', '0'], hits: ['', '', '']}, // 2-й корабль
+            {locations: ['0', '0', '0'], hits: ['', '', '']}], // 3-й корабль
     /**
      * метод для определения попадания в корабль
      * @param guess
@@ -89,14 +91,77 @@ var model = {
         }
         // если корабль потоплен, то возвращаем истину
         return true;
+    },
+    /**
+     * метод для генерации расположения кораблей
+     */
+    generateShipLocations: function () {
+        var locations;
+        for (var i = 0; i < this.numShips; i++) {
+            do {
+               locations = this.generateShip();
+            } while (this.collision(locations));
+            this.ships[i].locations = locations;
+        }
+    },
+    /**
+     * метод генерации кораблей
+     * @returns {Array}
+     */
+    generateShip: function () {
+        // генерируем число то 0 до 1
+        var direction = Math.floor(Math.random() * 2);
+        var row, col;
+
+        if (direction === 1) { // если direction = 1, то создается горизонтальный корабль
+            // Сгенерировать начальную позицию для горизонтального корабля
+            row = Math.floor(Math.random() * this.boardSize);
+            col = Math.floor(Math.random() * (this.boardSize - this.shipLength));
+        } else { // если direction = 0, то создается вертикальный корабль
+            // Сгенерировать начальную позицию для вертикального корабля
+            row = Math.floor(Math.random() * (this.boardSize - this.shipLength));
+            col = Math.floor(Math.random() * this.boardSize);
+        }
+
+        var newShipLocations = [];
+        for (var i = 0; i < this.shipLength; i++) {
+            if (direction === 1) {
+                // добавить в массив для горизонтального корабля
+                newShipLocations.push(row + '' + (col + i));
+            } else {
+                // добавить в массив для вертикального корабля
+                newShipLocations.push((row + i) + '' + col);
+            }
+        }
+        // возвращаем массив
+        return newShipLocations;
+    },
+    /**
+     * метод для проверки наложения корабля на корабль
+     * @param locations
+     * @returns {boolean}
+     */
+    collision: function (locations) {
+        for (var i = 0; i < this.numShips; i++) {
+            var ship = this.ships[i];
+
+            for (var j = 0; j < locations.length; j++) {
+                if (ship.locations.indexOf(locations[j]) >= 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
-
 };
-
+/**
+ * объект контроллера
+ * @type {{guesses: number, processGuess: controller.processGuess}}
+ */
 var controller = {
     guesses: 0,
     /**
-     * метод processGuess, получающий координаты в формате 'A0'.
+     * метод processGuess, получающий координаты в формате 'A0'
      * @param guess
      */
     processGuess: function (guess) {
@@ -149,7 +214,9 @@ function parseGuess(guess) {
     // если управление передано в эту точку, значит, какая-то проверка не прошла, и метод возвращает null
     return null;
 }
-
+/**
+ * обработчик нажатия на кнопку выстрела 'Fire!'
+ */
 function handleFireButton() {
     // получаем ссылку на элемент формы по идентификатору элемента 'guessInput'
     var guessInput = document.getElementById('guessInput');
@@ -163,7 +230,7 @@ function handleFireButton() {
 }
 
 /**
- * обработчик нажатий клавиш вызывается, при каждом нажатии клавиши в поле input
+ * обработчик нажатий клавиши 'Enter' вызывается, при каждом нажатии клавиши в поле input
  * @param e
  * @returns {boolean}
  */
@@ -177,9 +244,6 @@ function handleKeyPress(e) {
     }
 }
 
-// браузер должен выполнять init, при полной загрузке страницы
-window.onload = init;
-
 function init() {
     // получаем ссылку на кнопку Fire! по идентификатору кнопки
     var fireButton = document.getElementById('fireButton');
@@ -188,4 +252,9 @@ function init() {
     // обработчик для обработки событий нажатия клавиш в поле ввода HTML
     var guessInput = document.getElementById('guessInput');
     guessInput.onkeypress = handleKeyPress;
+    // генерируем расположения кораблей
+    model.generateShipLocations();
 }
+
+// браузер должен выполнять init, при полной загрузке страницы
+window.onload = init;
