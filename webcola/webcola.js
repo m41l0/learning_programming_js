@@ -13,6 +13,31 @@ function compareSold(colaA, colaB) {
     return (colaA.sold - colaB.sold);
 }
 
+
+function compareName(colaA, colaB) {
+    if (colaA.name > colaB.name) {
+        return 1;
+    } else if (colaA.name === colaB.name) {
+        return 0;
+    } else {
+        return -1;
+    }
+}
+
+function compareCalories(colaA, colaB) {
+    return (colaA.calories - colaB.calories);
+}
+
+function compareColor(colaA, colaB) {
+    if (colaA.color > colaB.color) {
+        return 1;
+    } else if (colaA.color === colaB.color) {
+        return 0;
+    } else {
+        return -1;
+    }
+}
+
 // красивый вывод в консоль массива products
 function printProducts(products) {
     for (var i = 0; i < products.length; i++) {
@@ -23,4 +48,18 @@ function printProducts(products) {
     }
 }
 products.sort(compareSold);
+console.log("========Products sorted by sales:========");
+printProducts(products);
+
+
+products.sort(compareName);
+console.log("========Products sorted by name:========");
+printProducts(products);
+
+products.sort(compareCalories);
+console.log("========Products sorted by calories:========");
+printProducts(products);
+
+products.sort(compareColor);
+console.log("========Products sorted by color:========");
 printProducts(products);
