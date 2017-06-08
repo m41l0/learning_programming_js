@@ -1,0 +1,100 @@
+.calendar-ui {
+    width: 300px;
+    background: lightblue;
+}
+
+.calendar-ui__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.calendar-ui__month {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 30px;
+    color: #000;
+    text-shadow: 1px 1px 0 #fff;
+}
+
+.calendar-ui__month_next {
+}
+.calendar-ui__current-month {
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+}
+
+.calendar-ui__current-year {
+    border: none;
+    padding: 10px;
+    width: 50px;
+    outline: none;
+    background: transparent;
+}
+
+.calendar-ui__days {
+    display: flex;
+    justify-content: space-between;
+}
+
+.calendar-ui__days-header {
+    padding: 10px;
+}
+
+.calendar-ui__dates {
+    display: flex;
+    flex-wrap: wrap;
+    border-color: #8e8e8e;
+    border-style: solid;
+    border-width: 0 0 1px 1px;
+    box-sizing: border-box;
+    counter-reset: past-month 28 current-month 0 next-month;
+}
+
+.calendar-ui__date {
+    height: 30px;
+    width: 14.2857%;
+    background: white;
+    padding: 5px;
+    box-sizing: border-box;
+    border-color: #8e8e8e;
+    border-width: 1px 1px 0 0;
+    border-style: solid;
+    text-decoration: none;
+    color: #000;
+    text-align: right;
+}
+
+.calendar-ui__date_current-month:before {
+    content: counter( current-month );
+    counter-increment: current-month;
+}
+.calendar-ui__date_past-month:before {
+    content: counter( past-month );
+    counter-increment: past-month;
+}
+
+.calendar-ui__date_next-month:before {
+    content: counter( next-month );
+    counter-increment: next-month;
+}
+
+.calendar-ui__date_past-month {
+    color: #8e8e8e;
+}
+
+.calendar-ui__date_next-month {
+    color: #8e8e8e;
+}
+
+
+.calendar-ui__dates > .calendar-ui__date:nth-child(7n + 6),
+.calendar-ui__dates > .calendar-ui__date:nth-child(7n + 7) {
+    background: whitesmoke;
+}
+
+.calendar-ui__date_active {
+    background: blue !important;
+    color: #fff;
+}
